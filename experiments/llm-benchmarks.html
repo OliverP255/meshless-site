@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM Benchmarks — Meshless</title>
+  <link rel="stylesheet" href="../styles.css">
+  <meta name="description" content="Benchmarking LLMs for 3D geometry generation in WGSL">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand"><img src="../xyz.png" alt="" class="nav-logo">meshless.xyz</a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../experiments.html">Experiments</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Article Header -->
+    <header class="article-header">
+      <p class="article-tagline">April 2026</p>
+      <h1>LLM Benchmarks for WGSL Geometry Generation</h1>
+    </header>
+
+    <!-- Intro -->
+    <p>
+      I benchmarked all the top open source models for the task of generating 3D geometry in WGSL. This page documents the methodology and results.
+    </p>
+
+    <section>
+      <h2>Methodology</h2>
+      <p>
+        A fixed benchmark of <strong>46 prompts</strong> across five difficulty categories was run against nine open-weight models. WGSL validity was checked programmatically; geometric accuracy was rated (from both the code and 2D image of the result) by Claude Opus 4.6 on a 1–5 scale.
+      </p>
+      <h3>Prompt categories</h3>
+      <ul>
+        <li><strong>B1</strong> — Classic CAD with specified dimensions + numbered steps</li>
+        <li><strong>B2</strong> — Classic CAD with specified dimensions, no steps</li>
+        <li><strong>B3</strong> — Classic CAD, no dimensions specified</li>
+        <li><strong>B4</strong> — Vague / short prompts</li>
+        <li><strong>B5</strong> — Organic / SDF-native shapes (smooth blending, gyroids, procedural)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Results</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Valid WGSL</th>
+              <th>Mean Accuracy</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight-row">
+              <td><strong>Qwen2.5-Coder-32B-Instruct</strong></td>
+              <td><strong>100%</strong></td>
+              <td><strong>4.35</strong></td>
+              <td><strong>A</strong></td>
+            </tr>
+            <tr>
+              <td>Qwen3-14B-FP8</td>
+              <td>100%</td>
+              <td>4.28</td>
+              <td>A</td>
+            </tr>
+            <tr>
+              <td>Qwen3-32B-FP8</td>
+              <td>100%</td>
+              <td>4.15</td>
+              <td>A</td>
+            </tr>
+            <tr>
+              <td>GLM-4.7-Flash-FP8</td>
+              <td>100%</td>
+              <td>4.00</td>
+              <td>A</td>
+            </tr>
+            <tr>
+              <td>GLM-4-32B-0414</td>
+              <td>100%</td>
+              <td>3.96</td>
+              <td>A</td>
+            </tr>
+            <tr>
+              <td>DeepSeek-R1-Distill-Qwen-32B</td>
+              <td>100%</td>
+              <td>3.87</td>
+              <td>A</td>
+            </tr>
+            <tr>
+              <td>GLM-Z1-32B-0414</td>
+              <td>67%</td>
+              <td>3.02</td>
+              <td>C</td>
+            </tr>
+            <tr>
+              <td>llava-v1.6-mistral-7b-hf</td>
+              <td>96%</td>
+              <td>2.37</td>
+              <td>B</td>
+            </tr>
+            <tr>
+              <td>llava-onevision-qwen2-7b-ov-hf</td>
+              <td>83%</td>
+              <td>2.15</td>
+              <td>B</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Key Findings</h2>
+      <p>
+        The dominant failure mode across all models was precise spatial reasoning (e.g. writing incorrect half-extents, wrong positional offsets, rotation errors) rather than syntax failures.
+      </p>
+      <p>
+        <strong>Qwen2.5-Coder-32B-Instruct</strong> outperforms both larger Qwen3 models, demonstrating that code-specialised training is more valuable than raw scale for this task. The model also produced the most creative solutions for complex SDF compositions.
+      </p>
+    </section>
+
+    <p class="back-link">
+      <a href="../experiments.html">← Back to Experiments</a>
+    </p>
+
+    <footer>
+      <p>Built with WebGPU, vLLM, and SDF geometry. The SDF implementation draws heavily from <a href="https://iquilezles.org/articles/distfunctions/">Inigo Quilez's work</a>. · <a href="mailto:op.oliv17@gmail.com">Get in touch</a></p>
+    </footer>
+  </main>
+</body>
+</html>
