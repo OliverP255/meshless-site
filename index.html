@@ -1,693 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SketchCAD — Build 3D models by describing them</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --cream: #FAF8F3;
-    --cream2: #F3F0E8;
-    --ink: #1a1814;
-    --ink-light: #5c5852;
-    --ink-faint: #a09d98;
-    --amber: #E8672A;
-    --amber-light: #fdf0e8;
-    --amber-mid: rgba(232,103,42,0.12);
-    --green: #2a7a4b;
-    --border: #E4E0D8;
-    --white: #ffffff;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 400;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 48px;
-    background: rgba(250,248,243,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  .logo {
-    font-family: 'Fraunces', serif;
-    font-weight: 700; font-size: 1.25rem;
-    color: var(--ink); text-decoration: none;
-    letter-spacing: -0.02em;
-  }
-  .logo span { color: var(--amber); }
-  nav ul { list-style: none; display: flex; gap: 32px; }
-  nav ul a { color: var(--ink-light); text-decoration: none; font-size: .875rem; transition: color .2s; }
-  nav ul a:hover { color: var(--ink); }
-  .nav-cta {
-    background: var(--ink); color: var(--cream);
-    padding: 9px 22px; font-family: 'DM Sans', sans-serif;
-    font-size: .82rem; font-weight: 500;
-    cursor: pointer; text-decoration: none;
-    border-radius: 100px; transition: all .2s;
-  }
-  .nav-cta:hover { background: var(--amber); }
-
-  /* HERO */
-  #hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    align-items: flex-start; justify-content: center;
-    padding: 140px 48px 80px;
-    max-width: 1100px; margin: 0 auto;
-  }
-
-  .hero-label {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--amber-mid); color: var(--amber);
-    font-size: .78rem; font-weight: 500;
-    padding: 6px 14px; border-radius: 100px;
-    margin-bottom: 32px;
-    opacity: 0; animation: fadeUp .5s .1s forwards;
-  }
-  .hero-label::before { content: '●'; font-size: .5rem; }
-
-  h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 700;
-    font-size: clamp(3rem, 6.5vw, 5.5rem);
-    line-height: 1.05; letter-spacing: -0.03em;
-    margin-bottom: 28px; max-width: 800px;
-    opacity: 0; animation: fadeUp .6s .25s forwards;
-  }
-  h1 em { font-style: italic; font-weight: 300; color: var(--amber); }
-
-  .hero-sub {
-    font-size: 1.15rem; line-height: 1.75;
-    color: var(--ink-light); max-width: 540px;
-    margin-bottom: 44px;
-    opacity: 0; animation: fadeUp .6s .4s forwards;
-  }
-
-  .hero-ctas {
-    display: flex; gap: 14px; flex-wrap: wrap;
-    opacity: 0; animation: fadeUp .6s .55s forwards;
-    margin-bottom: 72px;
-  }
-  .btn-primary {
-    background: var(--amber); color: white; border: none;
-    padding: 14px 30px; font-family: 'DM Sans', sans-serif;
-    font-size: .9rem; font-weight: 500; cursor: pointer;
-    text-decoration: none; border-radius: 100px; transition: all .2s;
-    box-shadow: 0 4px 20px rgba(232,103,42,0.25);
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,103,42,0.35); }
-  .btn-secondary {
-    background: transparent; color: var(--ink);
-    border: 1.5px solid var(--border);
-    padding: 14px 30px; font-family: 'DM Sans', sans-serif;
-    font-size: .9rem; cursor: pointer;
-    text-decoration: none; border-radius: 100px; transition: all .2s;
-  }
-  .btn-secondary:hover { border-color: var(--ink); }
-
-  .demo-card {
-    width: 100%; max-width: 680px;
-    background: var(--white); border: 1px solid var(--border);
-    border-radius: 16px; overflow: hidden;
-    box-shadow: 0 8px 40px rgba(26,24,20,0.08);
-    opacity: 0; animation: fadeUp .7s .7s forwards;
-  }
-  .demo-top {
-    padding: 18px 20px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .demo-dots { display: flex; gap: 6px; }
-  .demo-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .demo-dot:nth-child(1) { background: #ff5f57; }
-  .demo-dot:nth-child(2) { background: #febc2e; }
-  .demo-dot:nth-child(3) { background: #28c840; }
-  .demo-title { font-size: .78rem; color: var(--ink-faint); margin: 0 auto; font-family: 'DM Mono', monospace; }
-  .demo-body { padding: 28px 24px; }
-  .demo-prompt-label { font-size: .72rem; font-weight: 500; color: var(--ink-faint); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; }
-  .demo-input {
-    background: var(--cream); border: 1px solid var(--border);
-    border-radius: 8px; padding: 14px 16px;
-    font-family: 'DM Sans', sans-serif; font-size: .9rem; color: var(--ink);
-    min-height: 52px; display: flex; align-items: center; margin-bottom: 16px;
-  }
-  .demo-cursor {
-    display: inline-block; width: 2px; height: 17px;
-    background: var(--amber); margin-left: 2px; vertical-align: middle;
-    animation: blink 1s step-end infinite;
-  }
-  .demo-out-row {
-    display: flex; align-items: center; gap: 10px;
-    font-size: .82rem; color: var(--ink-light);
-    opacity: 0; transition: opacity .4s; margin-bottom: 8px;
-  }
-  .demo-out-row.show { opacity: 1; }
-  .demo-check {
-    width: 20px; height: 20px; border-radius: 50%;
-    background: #edf7f1; color: var(--green);
-    display: flex; align-items: center; justify-content: center;
-    font-size: .7rem; flex-shrink: 0;
-  }
-
-  .section-wrap { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
-
-  .proof-strip {
-    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-    padding: 32px 48px;
-    display: flex; align-items: center; justify-content: center;
-    gap: 64px; flex-wrap: wrap; background: var(--white);
-  }
-  .proof-item { text-align: center; }
-  .proof-num {
-    font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 600;
-    color: var(--ink); display: block; line-height: 1; margin-bottom: 6px;
-  }
-  .proof-label { font-size: .78rem; color: var(--ink-faint); }
-
-  section { position: relative; }
-
-  #how { padding: 110px 0; background: var(--white); border-top: 1px solid var(--border); }
-
-  .section-eyebrow {
-    font-size: .75rem; font-weight: 500; color: var(--amber);
-    letter-spacing: .08em; text-transform: uppercase;
-    margin-bottom: 14px; display: block;
-  }
-  h2 {
-    font-family: 'Fraunces', serif; font-weight: 700;
-    font-size: clamp(2rem, 3.5vw, 2.8rem);
-    letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 16px;
-  }
-  .section-desc { color: var(--ink-light); font-size: 1rem; max-width: 440px; line-height: 1.75; }
-
-  .how-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 0; margin-top: 64px;
-    border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
-  }
-  .how-step {
-    padding: 36px 32px; border-right: 1px solid var(--border); transition: background .2s;
-  }
-  .how-step:last-child { border-right: none; }
-  .how-step:hover { background: var(--cream); }
-  .step-number {
-    font-family: 'Fraunces', serif; font-size: 2.5rem;
-    font-weight: 300; font-style: italic;
-    color: var(--border); line-height: 1; margin-bottom: 20px;
-  }
-  .step-icon { font-size: 1.4rem; margin-bottom: 14px; }
-  .how-step h3 {
-    font-family: 'Fraunces', serif; font-size: 1.05rem;
-    font-weight: 600; margin-bottom: 10px; letter-spacing: -0.01em;
-  }
-  .how-step p { font-size: .85rem; color: var(--ink-light); line-height: 1.75; }
-
-  #everyone { padding: 110px 0; border-top: 1px solid var(--border); }
-  .audience-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
-  .audience-card {
-    background: var(--white); border: 1px solid var(--border);
-    border-radius: 16px; padding: 36px 32px; transition: all .25s;
-  }
-  .audience-card:hover { border-color: var(--amber); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(232,103,42,0.08); }
-  .audience-emoji { font-size: 2rem; margin-bottom: 20px; display: block; }
-  .audience-card h3 { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; }
-  .audience-card p { font-size: .87rem; color: var(--ink-light); line-height: 1.8; }
-  .audience-quote {
-    margin-top: 20px; padding: 14px 16px;
-    background: var(--cream); border-left: 3px solid var(--amber);
-    border-radius: 0 8px 8px 0;
-    font-size: .82rem; color: var(--ink);
-    font-style: italic; font-family: 'Fraunces', serif;
-    font-weight: 300; line-height: 1.6;
-  }
-
-  #examples { padding: 110px 0; background: var(--white); border-top: 1px solid var(--border); }
-  .examples-list { margin-top: 56px; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
-  .example-row {
-    display: grid; grid-template-columns: 1fr auto;
-    align-items: center; padding: 24px 32px;
-    border-bottom: 1px solid var(--border); transition: background .2s; gap: 20px;
-  }
-  .example-row:last-child { border: none; }
-  .example-row:hover { background: var(--cream); }
-  .example-prompt { font-family: 'DM Mono', monospace; font-size: .85rem; color: var(--ink); }
-  .example-prompt::before { content: '"'; color: var(--amber); }
-  .example-prompt::after { content: '"'; color: var(--amber); }
-  .example-tag { font-size: .72rem; font-weight: 500; padding: 4px 12px; border-radius: 100px; white-space: nowrap; }
-  .tag-beginner { background: #edf7f1; color: var(--green); }
-  .tag-engineer { background: var(--amber-mid); color: var(--amber); }
-  .tag-creative { background: #f0edfb; color: #6b4fc4; }
-
-  #founder { padding: 110px 0; border-top: 1px solid var(--border); }
-  .founder-inner {
-    display: grid; grid-template-columns: auto 1fr;
-    gap: 56px; align-items: start; max-width: 780px;
-  }
-  .founder-avatar {
-    width: 100px; height: 100px; border-radius: 50%;
-    background: var(--amber-mid);
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-    flex-shrink: 0; border: 3px solid var(--amber-light);
-  }
-  .founder-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .founder-name { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 6px; }
-  .founder-role { font-size: .85rem; color: var(--amber); font-weight: 500; margin-bottom: 20px; }
-  .founder-bio { font-size: .95rem; color: var(--ink-light); line-height: 1.85; margin-bottom: 24px; }
-  .founder-links { display: flex; gap: 14px; flex-wrap: wrap; }
-  .founder-link {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: .82rem; font-weight: 500; color: var(--ink);
-    text-decoration: none; padding: 8px 16px;
-    border: 1.5px solid var(--border); border-radius: 100px; transition: all .2s;
-  }
-  .founder-link:hover { border-color: var(--amber); color: var(--amber); }
-  .founder-link svg { width: 14px; height: 14px; }
-
-  #technical {
-    padding: 110px 0; border-top: 1px solid var(--border);
-    background: var(--ink); color: var(--cream);
-  }
-  #technical .section-eyebrow { color: var(--amber); }
-  #technical h2 { color: var(--cream); }
-  #technical .section-desc { color: rgba(250,248,243,0.5); }
-
-  .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 64px; align-items: start; }
-  .tech-block { display: flex; flex-direction: column; gap: 24px; }
-  .tech-item {
-    padding: 28px; border: 1px solid rgba(250,248,243,0.08);
-    border-radius: 12px; transition: border-color .2s;
-  }
-  .tech-item:hover { border-color: rgba(232,103,42,0.3); }
-  .tech-item h4 { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: var(--cream); }
-  .tech-item p { font-size: .83rem; color: rgba(250,248,243,0.5); line-height: 1.8; }
-  .tech-badge { display: inline-block; background: rgba(232,103,42,0.15); color: var(--amber); font-family: 'DM Mono', monospace; font-size: .68rem; padding: 3px 9px; border-radius: 4px; margin-top: 12px; }
-
-  .code-block {
-    background: rgba(0,0,0,0.4); border: 1px solid rgba(250,248,243,0.08);
-    border-radius: 12px; padding: 28px;
-    font-family: 'DM Mono', monospace; font-size: .78rem; line-height: 2.1; overflow-x: auto;
-  }
-  .code-block .kw { color: #c792ea; }
-  .code-block .fn { color: #82aaff; }
-  .code-block .num { color: #f78c6c; }
-  .code-block .cm { color: rgba(250,248,243,0.3); }
-  .code-block .var { color: #89ddff; }
-
-  .bench-wrap { margin-top: 28px; overflow-x: auto; }
-  .bench-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
-  .bench-table th { text-align: left; padding: 12px 20px; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(250,248,243,0.3); border-bottom: 1px solid rgba(250,248,243,0.06); font-weight: 400; }
-  .bench-table td { padding: 14px 20px; border-bottom: 1px solid rgba(250,248,243,0.04); color: rgba(250,248,243,0.75); }
-  .bench-table tr.best td { color: var(--cream); }
-  .bench-table tr.best td:first-child { color: var(--amber); }
-  .grade-pill { display: inline-flex; align-items: center; justify-content: center; padding: 2px 10px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: .7rem; font-weight: 500; }
-  .gA { background: rgba(232,103,42,.15); color: var(--amber); }
-  .gB { background: rgba(42,122,75,.15); color: #4ade80; }
-  .gC { background: rgba(255,100,100,.1); color: #f87171; }
-
-  #cta { padding: 120px 0; text-align: center; border-top: 1px solid var(--border); }
-  #cta h2 { font-size: clamp(2.2rem, 4vw, 3.5rem); margin-bottom: 16px; }
-  #cta p { color: var(--ink-light); margin-bottom: 44px; font-size: 1rem; }
-  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-
-  footer {
-    border-top: 1px solid var(--border); padding: 36px 48px;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 16px; background: var(--white);
-  }
-  .footer-logo { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1rem; color: var(--ink); text-decoration: none; }
-  .footer-logo span { color: var(--amber); }
-  footer p { font-size: .78rem; color: var(--ink-faint); }
-  .footer-links { display: flex; gap: 24px; }
-  .footer-links a { font-size: .78rem; color: var(--ink-faint); text-decoration: none; transition: color .2s; }
-  .footer-links a:hover { color: var(--ink); }
-
-  @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-  .reveal { opacity:0; transform:translateY(24px); transition: opacity .65s ease, transform .65s ease; }
-  .reveal.visible { opacity:1; transform:translateY(0); }
-
-  @media (max-width: 900px) {
-    nav { padding: 16px 20px; }
-    nav ul { display: none; }
-    #hero { padding: 100px 20px 60px; }
-    .proof-strip { padding: 24px 20px; gap: 32px; }
-    .section-wrap { padding: 0 20px; }
-    #how, #everyone, #examples, #founder, #technical, #cta { padding: 72px 0; }
-    .how-grid { grid-template-columns: 1fr 1fr; }
-    .audience-grid { grid-template-columns: 1fr; }
-    .tech-grid { grid-template-columns: 1fr; }
-    footer { padding: 28px 20px; flex-direction: column; }
-    .founder-inner { grid-template-columns: 1fr; gap: 28px; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meshless — AI-Powered 3D Geometry Generation</title>
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="I built Meshless to close the tool gap in consumer 3D printing. Turn any idea into a printable file in minutes.">
 </head>
 <body>
-
-<nav>
-  <a href="#" class="logo">Sketch<span>CAD</span></a>
-  <ul>
-    <li><a href="#how">How it works</a></li>
-    <li><a href="#everyone">Who it's for</a></li>
-    <li><a href="#founder">About</a></li>
-    <li><a href="#technical">Tech</a></li>
-  </ul>
-  <a href="https://github.com/OliverP255/text-to-geometry" class="nav-cta" target="_blank">Try it free</a>
-</nav>
-
-<section id="hero">
-  <div class="hero-label">Now open source</div>
-  <h1>Build 3D models<br>by <em>describing</em> them.</h1>
-  <p class="hero-sub">
-    No tutorials. No learning curve. Just type what you want to build and watch it appear in your browser in seconds.
-  </p>
-  <div class="hero-ctas">
-    <a href="https://github.com/OliverP255/text-to-geometry" class="btn-primary" target="_blank">Get started for free</a>
-    <a href="#how" class="btn-secondary">See how it works</a>
-  </div>
-
-  <div class="demo-card">
-    <div class="demo-top">
-      <div class="demo-dots">
-        <div class="demo-dot"></div>
-        <div class="demo-dot"></div>
-        <div class="demo-dot"></div>
-      </div>
-      <span class="demo-title">sketchcad</span>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand"><img src="xyz.png" alt="" class="nav-logo">meshless.xyz</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="experiments.html">Experiments</a></li>
+      </ul>
     </div>
-    <div class="demo-body">
-      <div class="demo-prompt-label">Describe what you want to build</div>
-      <div class="demo-input">
-        <span id="typeTarget"></span><span class="demo-cursor"></span>
-      </div>
-      <div class="demo-out-row" id="o1"><div class="demo-check">✓</div> Generating 3D geometry...</div>
-      <div class="demo-out-row" id="o2"><div class="demo-check">✓</div> Validating structure...</div>
-      <div class="demo-out-row" id="o3"><div class="demo-check">✓</div> Rendering in your browser. Done.</div>
-    </div>
-  </div>
-</section>
+  </nav>
 
-<div class="proof-strip reveal">
-  <div class="proof-item"><span class="proof-num">100%</span><div class="proof-label">Valid geometry from top AI models</div></div>
-  <div class="proof-item"><span class="proof-num">4.35/5</span><div class="proof-label">Average accuracy score</div></div>
-  <div class="proof-item"><span class="proof-num">46</span><div class="proof-label">Design prompts tested</div></div>
-  <div class="proof-item"><span class="proof-num">&lt;1s</span><div class="proof-label">From text to rendered model</div></div>
-</div>
+  <main class="container">
+    <!-- Article Header -->
+    <header class="article-header">
+      <h1>Shortening the Time Between Idea and Physical Product</h1>
+    </header>
 
-<section id="how">
-  <div class="section-wrap">
-    <div class="reveal">
-      <span class="section-eyebrow">How it works</span>
-      <h2>Four steps from words to 3D.</h2>
-      <p class="section-desc">The whole process happens automatically. You just need to describe what you want to build.</p>
-    </div>
-    <div class="how-grid reveal">
-      <div class="how-step">
-        <div class="step-number">1</div>
-        <div class="step-icon">✍️</div>
-        <h3>Type your idea</h3>
-        <p>Describe your shape in plain English. No special commands or CAD knowledge needed.</p>
-      </div>
-      <div class="how-step">
-        <div class="step-number">2</div>
-        <div class="step-icon">🤖</div>
-        <h3>AI builds the geometry</h3>
-        <p>A language model translates your description into precise 3D geometry behind the scenes.</p>
-      </div>
-      <div class="how-step">
-        <div class="step-number">3</div>
-        <div class="step-icon">✅</div>
-        <h3>Automatically checked</h3>
-        <p>The geometry is validated instantly and any errors are caught before anything reaches your screen.</p>
-      </div>
-      <div class="how-step">
-        <div class="step-number">4</div>
-        <div class="step-icon">🖥️</div>
-        <h3>Live in your browser</h3>
-        <p>Your 3D model appears right in the browser. Spin it, zoom in, and keep iterating.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- Demo -->
+    <figure class="demo-figure">
+      <img src="chair.gif" alt="Demo: AI generating a 3D chair model in real-time">
+      <figcaption class="demo-caption">Real-time geometry generation from a text prompt</figcaption>
+    </figure>
 
-<section id="everyone">
-  <div class="section-wrap">
-    <div class="reveal">
-      <span class="section-eyebrow">Who it's for</span>
-      <h2>Whether you're just curious<br>or building something real.</h2>
-      <p class="section-desc">SketchCAD is for anyone with a shape in their head and no time to learn software.</p>
-    </div>
-    <div class="audience-grid">
-      <div class="audience-card reveal">
-        <span class="audience-emoji">🙋</span>
-        <h3>Total beginners</h3>
-        <p>Never touched 3D software in your life? Perfect. If you can describe something, you can build it. No tutorials, no manuals.</p>
-        <div class="audience-quote">A mug with a thick handle and rounded bottom</div>
-      </div>
-      <div class="audience-card reveal">
-        <span class="audience-emoji">🎨</span>
-        <h3>Designers and creatives</h3>
-        <p>Prototype concepts in 3D before committing to expensive renders or physical models. Explore ideas quickly and share them fast.</p>
-        <div class="audience-quote">A product stand with organic curved legs and a circular top</div>
-      </div>
-      <div class="audience-card reveal">
-        <span class="audience-emoji">⚙️</span>
-        <h3>Engineers and makers</h3>
-        <p>Sketch out mechanical ideas before committing to full CAD. Great for early-stage concepts and shapes traditional software struggles with.</p>
-        <div class="audience-quote">A hollow cylinder with M12 threaded interior, 60mm tall</div>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- Intro -->
+    <p>
+      I am building Meshless because the CAD and consumer 3D printing market has a fundamental tool gap. Making custom objects today requires either expensive engineering software with a months-long learning curve, or accepting the severe limitations of beginner tools. This project closes that gap entirely.
+    </p>
+    <br><br>
+    <!-- The Problem -->
+    <section id="problem">
+      <h2>The Problem</h2>
+      <p>
+        Making a custom physical object today requires either expensive engineering software with a months-long learning curve, or accepting the severe limitations of beginner tools that can only produce blocky, primitive geometry.
+      </p>
+      <p>
+        Mainstream CAD tools like SolidWorks, Fusion 360, and AutoCAD are built on technology that is 20+ years old, designed for professional engineers, and completely inaccessible to anyone without significant training.
+      </p>
+      <p>
+        The gap between "I have an idea for a physical object" and "I have a printable file" is enormous for most people.
+      </p>
+    </section>
 
-<section id="examples">
-  <div class="section-wrap">
-    <div class="reveal">
-      <span class="section-eyebrow">Examples</span>
-      <h2>Some things people have built.</h2>
-      <p class="section-desc">These are real prompts. All it takes is a sentence.</p>
-    </div>
-    <div class="examples-list reveal">
-      <div class="example-row">
-        <div class="example-prompt">A chair with four tapered legs and a gently curved backrest</div>
-        <span class="example-tag tag-beginner">Beginner</span>
+    <!-- What It Does -->
+    <section id="solution">
+      <h2>The Solution</h2>
+      <p>
+        You describe what you want. Meshless builds it and gives you a file you can print.
+      </p>
+      <div class="flow-diagram">
+        <p class="flow-prompt">"A vase with a twisting body and a voronoi texture on the surface"</p>
+        <span class="arrow">↓</span>
+        <p>AI agent generates 3D geometry in real time</p>
+        <span class="arrow">↓</span>
+        <p>WebGPU ray marcher renders it instantly in your browser</p>
+        <span class="arrow">↓</span>
+        <p>Download STL or 3D print directly</p>
       </div>
-      <div class="example-row">
-        <div class="example-prompt">A gyroid lattice structure with nodes merged using smooth blending</div>
-        <span class="example-tag tag-engineer">Engineer</span>
+      <p>
+        The kinds of objects Meshless excels at — organic shapes, surface textures, procedural structures, smooth blending between parts — are either impossible or require hours of expert work in traditional CAD tools. Meshless can generate them in a couple seconds.
+      <br><br>
+      Here's a quick comparison of Meshless with the current tools on the market.
+      <br>
+      </p>
+    
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Tool</th>
+              <th>Representation</th>
+              <th>AI interface</th>
+              <th>Organic geometry</th>
+              <th>Beginner-friendly</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fusion 360</td>
+              <td>B-Rep</td>
+              <td>Limited copilot</td>
+              <td>Poor</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td>Tinkercad</td>
+              <td>CSG/B-Rep</td>
+              <td>None</td>
+              <td>Very poor</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>nTop</td>
+              <td>Implicit/SDF</td>
+              <td>None</td>
+              <td>Excellent</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td>Shap-E / Point-E</td>
+              <td>Mesh diffusion</td>
+              <td>Text</td>
+              <td>Moderate</td>
+              <td>Yes</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>Meshless</strong></td>
+              <td><strong>SDF (WGSL)</strong></td>
+              <td><strong>Natural language</strong></td>
+              <td><strong>Excellent</strong></td>
+              <td><strong>Yes</strong></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="example-row">
-        <div class="example-prompt">A twisted vase that gets wider towards the top</div>
-        <span class="example-tag tag-creative">Creative</span>
-      </div>
-      <div class="example-row">
-        <div class="example-prompt">A hollow sphere with 12 circular holes evenly distributed on its surface</div>
-        <span class="example-tag tag-engineer">Engineer</span>
-      </div>
-      <div class="example-row">
-        <div class="example-prompt">A donut shape with a bumpy rough surface</div>
-        <span class="example-tag tag-beginner">Beginner</span>
-      </div>
-      <div class="example-row">
-        <div class="example-prompt">A bracket with two bolt holes 80mm apart and a gusset for reinforcement</div>
-        <span class="example-tag tag-engineer">Engineer</span>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section id="founder">
-  <div class="section-wrap">
-    <div class="reveal">
-      <span class="section-eyebrow">The founder</span>
-      <h2>Built by one person,<br>for everyone.</h2>
-    </div>
-    <div class="founder-inner reveal" style="margin-top:48px">
-      <div class="founder-avatar"><img src="Bildschirmfoto 2026-01-18 um 21.04.55.png" alt="Oliver Pryce"></div>
-      <div>
-        <div class="founder-name">Oliver Pryce</div>
-        <div class="founder-role">Founder, SketchCAD</div>
-        <p class="founder-bio">
-          I built SketchCAD because I kept having 3D ideas I couldn't quickly get out of my head. Traditional CAD software felt like a barrier, not a tool. I wanted something that felt as fast as sketching on paper but produced real geometry you could actually use.
-          <br><br>
-          SketchCAD started as an experiment to see how well language models could generate 3D geometry. After testing 9 models across 46 design prompts, the results were better than I expected, and I decided to share it.
-        </p>
-        <div class="founder-links">
-          <a href="https://www.linkedin.com/in/oliver-pryce-597747376/" class="founder-link" target="_blank">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            LinkedIn
-          </a>
-          <a href="https://github.com/OliverP255" class="founder-link" target="_blank">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-            GitHub
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- What We're Changing -->
+    <section id="technology">
+      <h2>What We're Changing and Why</h2>
 
-<section id="technical">
-  <div class="section-wrap">
-    <div class="reveal">
-      <span class="section-eyebrow">Under the hood</span>
-      <h2>For the technically curious.</h2>
-      <p class="section-desc">You don't need any of this to use SketchCAD. But if you want to know how it works at a deeper level, here it is.</p>
-    </div>
+      <h3>The CAD Representation Problem</h3>
+      <p>
+        Every major CAD tool uses <strong>Boundary Representation (B-Rep)</strong>, geometry defined by its surface boundaries: vertices, edges, and faces. B-Rep is precise and manufacturable, but it has fundamental limitations:
+      </p>
+      <ul>
+        <li>Boolean operations frequently fail on complex geometry</li>
+        <li>Organic shapes, smooth blending, and surface textures are extremely difficult to produce</li>
+        <li>Lattice structures, gyroids, and procedural infill are essentially impossible</li>
+        <li>The geometry representation resists automation — it was designed for humans clicking on faces, not for AI agents generating geometry from text</li>
+      </ul>
 
-    <div class="tech-grid">
-      <div class="tech-block reveal">
-        <div class="tech-item">
-          <h4>Signed Distance Functions (SDFs)</h4>
-          <p>Instead of building geometry with polygons, SketchCAD uses mathematical functions that describe shapes implicitly in 3D space. This makes them GPU-native, highly composable, and suited to organic or procedural geometry that traditional B-Rep CAD cannot produce.</p>
-          <span class="tech-badge">geometry representation</span>
-        </div>
-        <div class="tech-item">
-          <h4>LLM geometry generation via WGSL</h4>
-          <p>The language model outputs a single WGSL shader function: fn map(p: vec3f) -&gt; f32. Frontier models already understand SDF syntax from pre-training on Inigo Quilez's widely referenced tutorials. SketchCAD exploits this prior directly, with no fine-tuning required.</p>
-          <span class="tech-badge">AI + shaders</span>
-        </div>
-        <div class="tech-item">
-          <h4>Grammar-constrained DSL fallback</h4>
-          <p>For weaker models, SketchCAD falls back to a custom DSL compiled by a C++ geometry kernel. Grammar-constrained decoding enforces structure at inference time, eliminating syntax errors on models that struggle with raw WGSL output.</p>
-          <span class="tech-badge">reliability layer</span>
-        </div>
+      <h3>Using Signed Distance Functions</h3>
+      <p>
+        Meshless's geometry engine is built on <strong>Signed Distance Functions (SDFs)</strong>, a mathematical representation where every point in 3D space stores its distance to the nearest surface. Negative values are inside the geometry, positive values are outside, and zero marks the surface itself.
+      </p>
+      <pre><code>fn map(p: vec3f) -> f32 {
+    let sphere = sdSphere(p, 1.0);
+    let box    = sdBox(p - vec3(1.5, 0.0, 0.0), vec3(0.8, 0.6, 0.4));
+    return opSmoothUnion(sphere, box, 0.3);  // smooth blend
+}</code></pre>
+      <p>
+        SDFs make previously difficult operations trivial:
+      </p>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Operation</th>
+              <th>B-Rep</th>
+              <th>SDF</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Smooth blending</td>
+              <td>Hours of expert work</td>
+              <td>opSmoothUnion(a, b, k)</td>
+            </tr>
+            <tr>
+              <td>Surface texture / noise</td>
+              <td>Requires displacement maps</td>
+              <td>sdf(p) + noise(p)</td>
+            </tr>
+            <tr>
+              <td>Infinite repetition</td>
+              <td>Impossible</td>
+              <td>mod(p, cell_size)</td>
+            </tr>
+            <tr>
+              <td>Gyroid / TPMS lattice</td>
+              <td>Essentially impossible</td>
+              <td>One analytical equation</td>
+            </tr>
+            <tr>
+              <td>Boolean operations</td>
+              <td>Frequently fails</td>
+              <td>Always correct</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="reveal">
-        <div class="code-block">
-<pre><span class="cm">// From: "a gyroid lattice with smooth sphere nodes"</span>
+      <h3>Why This is Necessary for AI Generation</h3>
+      <p>
+        Language models have been trained on enormous amounts of SDF code, primarily from mathematician/software engineer Inigo Quilez's comprehensive tutorials and the Shadertoy community. They already understand the structure, syntax, and compositional patterns of SDF geometry in a way they do not understand B-Rep construction sequences. By targeting WGSL (the WebGPU shading language) using iq-style conventions, Meshless exploits this prior to generate geometrically accurate 3D shapes directly from natural language.
+      </p>
+      <p>
+        By combining SDFs with traditional CAD representations, Meshless gives users the best of both worlds: the precision of B-Rep for functional parts, and the expressiveness of SDFs for organic and procedural geometry. Users can generate complex shapes — twisting vases, lattice structures, smooth organic forms — without any expertise in either representation. The AI handles the translation from intent to geometry.
+      </p>
 
-<span class="kw">fn</span> <span class="fn">map</span>(p: <span class="var">vec3f</span>) -> <span class="var">f32</span> {
-  <span class="kw">let</span> q = p * <span class="num">1.5</span>;
+    </section>
 
-  <span class="cm">// gyroid field</span>
-  <span class="kw">let</span> g = sin(q.x)*cos(q.y)
-        + sin(q.y)*cos(q.z)
-        + sin(q.z)*cos(q.x);
+    <!-- Roadmap -->
+    <section id="roadmap">
+      <h2>The Roadmap</h2>
 
-  <span class="kw">let</span> gyroid = abs(g) - <span class="num">0.3</span>;
+      <div class="roadmap-phase">
+        <h4>Current (v0)</h4>
+        <ul class="roadmap-list">
+          <li class="done">Natural language → WGSL SDF generation</li>
+          <li class="done">Real-time WebGPU ray marching preview</li>
+          <li class="done">Multi-model benchmark (46 prompts, 9 models)</li>
+          <li class="done">SDF → STL export pipeline</li>
+          <li class="done">Mesh repair for slicer compatibility</li>
+        </ul>
+      </div>
 
-  <span class="cm">// repeated spheres at nodes</span>
-  <span class="kw">let</span> cell = fract(p * <span class="num">0.5</span>) - <span class="num">0.5</span>;
-  <span class="kw">let</span> sphere = length(cell) - <span class="num">0.18</span>;
+      <div class="roadmap-phase">
+        <h4>Near term</h4>
+        <ul class="roadmap-list">
+          <li class="done">VLM vision feedback — agent sees output and self-corrects</li>
+          <li>Parametric layer — editable parameters from generated WGSL</li>
+          <li>Extended primitive library — gears, threads, snap fits</li>
+          <li>Print-on-demand integration</li>
+          <li>Example gallery</li>
+        </ul>
+      </div>
 
-  <span class="kw">return</span> <span class="fn">opSmoothUnion</span>(gyroid, sphere, <span class="num">0.1</span>);
-}</pre>
-        </div>
+      <div class="roadmap-phase">
+        <h4>Medium term</h4>
+        <ul class="roadmap-list">
+          <li>Hybrid B-Rep + SDF engine</li>
+          <li>Voxel FEA — basic structural analysis</li>
+          <li>Manufacturing constraint awareness</li>
+        </ul>
+      </div>
 
-        <div class="bench-wrap">
-          <p style="font-size:.68rem; color:rgba(250,248,243,0.35); margin-bottom:16px; letter-spacing:.06em; text-transform:uppercase;">Benchmark: 9 models, 46 prompts</p>
-          <table class="bench-table">
-            <thead>
-              <tr><th>Model</th><th>Valid WGSL</th><th>Score</th><th></th></tr>
-            </thead>
-            <tbody>
-              <tr class="best"><td>Qwen2.5-Coder-32B ★</td><td>100%</td><td>4.35</td><td><span class="grade-pill gA">A</span></td></tr>
-              <tr><td>Qwen3-14B-FP8</td><td>100%</td><td>4.28</td><td><span class="grade-pill gA">A</span></td></tr>
-              <tr><td>Qwen3-32B-FP8</td><td>100%</td><td>4.15</td><td><span class="grade-pill gA">A</span></td></tr>
-              <tr><td>GLM-4.7-Flash-FP8</td><td>100%</td><td>4.00</td><td><span class="grade-pill gA">A</span></td></tr>
-              <tr><td>DeepSeek-R1-Distill-32B</td><td>100%</td><td>3.87</td><td><span class="grade-pill gA">A</span></td></tr>
-              <tr><td>GLM-Z1-32B-0414</td><td>67%</td><td>3.02</td><td><span class="grade-pill gC">C</span></td></tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="roadmap-phase">
+        <h4>Long term</h4>
+        <ul class="roadmap-list">
+          <li>Physics-driven design</li>
+          <li>Topology optimisation</li>
+          <li>Full generative design pipeline</li>
+        </ul>
+      </div>
+    </section>
 
-        <div style="margin-top:32px; display:flex; gap:14px; flex-wrap:wrap;">
-          <a href="https://github.com/OliverP255/text-to-geometry/blob/main/architecture.md" class="btn-secondary" target="_blank" style="border-color:rgba(250,248,243,0.15); color:var(--cream);">Read architecture docs</a>
-          <a href="https://github.com/OliverP255/text-to-geometry" class="btn-primary" target="_blank">View source on GitHub</a>
-        </div>
+    <!-- CTA -->
+    <div class="cta">
+      <p>The full code is available on GitHub. For commercial use or collaboration, please reach out.</p>
+      <div class="cta-buttons">
+        <a href="https://github.com/OliverP255/text-to-geometry" class="btn btn-primary" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          View on GitHub
+        </a>
+        <a href="mailto:op.oliv17@gmail.com" class="btn btn-secondary">
+          Get in touch
+        </a>
       </div>
     </div>
-  </div>
-</section>
 
-<section id="cta">
-  <div class="section-wrap reveal" style="text-align:center">
-    <span class="section-eyebrow" style="display:block; margin-bottom:16px">Get started</span>
-    <h2>Your first 3D model<br>is one sentence away.</h2>
-    <p>Free. No account needed.</p>
-    <div class="cta-btns">
-      <a href="https://github.com/OliverP255/text-to-geometry" class="btn-primary" target="_blank">Try SketchCAD</a>
-      <a href="https://github.com/OliverP255/text-to-geometry/blob/main/README.md" class="btn-secondary" target="_blank">Read the docs</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <a href="#" class="footer-logo">Sketch<span>CAD</span></a>
-  <p>Built by Oliver Pryce. Open source.</p>
-  <div class="footer-links">
-    <a href="https://github.com/OliverP255/text-to-geometry" target="_blank">GitHub</a>
-    <a href="https://www.linkedin.com/in/oliver-pryce-597747376/" target="_blank">LinkedIn</a>
-    <a href="#technical">Under the hood</a>
-  </div>
-</footer>
-
-<script>
-  const phrases = [
-    'A chair with four tapered legs and a curved back',
-    'A gyroid lattice with smooth sphere nodes',
-    'A hollow cylinder with threaded interior, M12',
-    'A donut shape with a bumpy rough surface',
-    'A bracket with two bolt holes 80mm apart'
-  ];
-  let pi = 0, ci = 0, deleting = false;
-  const el = document.getElementById('typeTarget');
-  const o1 = document.getElementById('o1');
-  const o2 = document.getElementById('o2');
-  const o3 = document.getElementById('o3');
-
-  function hide() { o1.classList.remove('show'); o2.classList.remove('show'); o3.classList.remove('show'); }
-
-  function type() {
-    const phrase = phrases[pi];
-    if (!deleting) {
-      if (ci < phrase.length) {
-        el.textContent = phrase.slice(0, ++ci);
-        setTimeout(type, 42 + Math.random()*28);
-      } else {
-        setTimeout(() => o1.classList.add('show'), 300);
-        setTimeout(() => o2.classList.add('show'), 900);
-        setTimeout(() => o3.classList.add('show'), 1600);
-        setTimeout(() => { deleting = true; type(); }, 3200);
-      }
-    } else {
-      if (ci > 0) {
-        el.textContent = phrase.slice(0, --ci);
-        if (ci < phrase.length - 2) hide();
-        setTimeout(type, 18);
-      } else {
-        deleting = false;
-        pi = (pi + 1) % phrases.length;
-        setTimeout(type, 400);
-      }
-    }
-  }
-  setTimeout(type, 1000);
-
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-</script>
+    <footer>
+      <p>Built with WebGPU, vLLM, and SDF geometry. The SDF implementation draws heavily from <a href="https://iquilezles.org/articles/distfunctions/">Inigo Quilez's work</a>.</p>
+    </footer>
+  </main>
 </body>
 </html>

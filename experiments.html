@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiments — Meshless</title>
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Experiments and benchmarks from the Meshless project">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand"><img src="xyz.png" alt="" class="nav-logo">meshless.xyz</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="experiments.html">Experiments</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Article Header -->
+    <header class="article-header">
+      <h1>Experiments</h1>
+    </header>
+
+    <p>
+      A collection of experiments and benchmarks made while building Meshless.
+    </p>
+
+    <div class="experiment-cards">
+      <a href="experiments/llm-benchmarks.html" class="experiment-card">
+        <span class="card-date">April 2026</span>
+        <h3>LLM Benchmarks for WGSL Geometry Generation</h3>
+        <p>Benchmarking 9 open-source models on 46 prompts to find the best LLM for generating 3D geometry code. Qwen2.5-Coder-32B-Instruct came out on top.</p>
+        <span class="card-link">Read more →</span>
+      </a>
+    </div>
+
+    <footer>
+      <p>Built with WebGPU, vLLM, and SDF geometry. The SDF implementation draws heavily from <a href="https://iquilezles.org/articles/distfunctions/">Inigo Quilez's work</a>. · <a href="mailto:op.oliv17@gmail.com">Get in touch</a></p>
+    </footer>
+  </main>
+</body>
+</html>
