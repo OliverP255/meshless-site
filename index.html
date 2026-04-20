@@ -39,11 +39,12 @@
     <section id="problem">
       <h2>The Problem</h2>
      <p>  
-      There is an engineer shortage worldwide (nearly one in three engineering roles in the US goes unfilled every year) [BCG] 
+      There is a global engineer shortage. One in three engineering roles in the US alone could go unfilled each year through 2030 
+      (<a href="https://www.bcg.com/publications/2023/addressing-the-engineering-talent-shortage" target="_blank" rel="noopener noreferrer">BCG, 2023</a>).      <br><br>
       <br><br>
       But there is no shortage of people with ideas. 
       <br><br>
-      The opportunity to turn ideas for physical products into reality is currently gatekept by CAD software that costs upwards of $2,000 per year, requires years of training to produce professional designs, and is built on technology that is over 20 years old. 
+      The opportunity to turn ideas for physical products into reality is currently gatekept by CAD software that costs upwards of $2,000 per year, requires years of training for professional use, and is built on technology that is over 20 years old. 
       <br><br>
       As a result, the ability to design and manufacture physical products remains available to a small professional class, but inaccessible to billions of people with genuine ideas, creativity, and access to cheap 3D printers.
       </p>
@@ -60,9 +61,9 @@
         <span class="arrow">↓</span>
         <p>AI agent generates 3D geometry in real time</p>
         <span class="arrow">↓</span>
-        <p>WebGPU ray marcher renders it instantly in your browser</p>
+        <p>Object is rendered in your browser in seconds</p>
         <span class="arrow">↓</span>
-        <p>Download STL or 3D print directly</p>
+        <p>Download STL file or 3D print directly</p>
       </div>
       <p>
         The kinds of objects Meshless excels at — organic shapes, surface textures, procedural structures, smooth blending between parts — are either impossible or require hours of expert work in traditional CAD tools. Meshless can generate them in a couple seconds.
@@ -117,9 +118,68 @@
       </div>
     </section>
 
-    <!-- What We're Changing -->
+    <!-- Roadmap -->
+    <section id="roadmap">
+      <h2>The Roadmap</h2>
+
+      <div class="roadmap-phase">
+        <h4>Current (v0)</h4>
+        <ul class="roadmap-list">
+          <li class="done">Natural language to WGSL SDF generation</li>
+          <li class="done">Real-time WebGPU ray marching preview</li>
+          <li class="done">Multi-model benchmark (46 prompts, 9 models)</li>
+          <li class="done">SDF to STL export pipeline</li>
+          <li class="done">Mesh repair for slicer compatibility</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-phase">
+        <h4>Near term</h4>
+        <ul class="roadmap-list">
+          <li class="done">VLM vision feedback — agent sees output and self-corrects</li>
+          <li>Parametric layer — editable parameters from generated WGSL</li>
+          <li>Extended primitive library — gears, threads, snap fits</li>
+          <li>Print-on-demand integration</li>
+          <li>Example gallery</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-phase">
+        <h4>Medium term</h4>
+        <ul class="roadmap-list">
+          <li>Hybrid B-Rep + SDF engine</li>
+          <li>Voxel FEA — basic structural analysis</li>
+          <li>Manufacturing constraint awareness</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-phase">
+        <h4>Long term</h4>
+        <ul class="roadmap-list">
+          <li>Physics-driven design</li>
+          <li>Topology optimisation</li>
+          <li>Full generative design pipeline</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta">
+      <p>The full code is available on GitHub. For commercial use or collaboration, please reach out.</p>
+      <div class="cta-buttons">
+        <a href="https://github.com/OliverP255/text-to-geometry" class="btn btn-primary" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          View on GitHub
+        </a>
+        <a href="mailto:op.oliv17@gmail.com" class="btn btn-secondary">
+          Get in touch
+        </a>
+      </div>
+    </div>
+
+    <!-- Technical Deep Dive -->
     <section id="technology">
-      <h2>What We're Changing and Why</h2>
+      <h2>What We're Changing and Why (Technical)</h2>
 
       <h3>The CAD Representation Problem</h3>
       <p>
@@ -192,65 +252,6 @@
       </p>
 
     </section>
-
-    <!-- Roadmap -->
-    <section id="roadmap">
-      <h2>The Roadmap</h2>
-
-      <div class="roadmap-phase">
-        <h4>Current (v0)</h4>
-        <ul class="roadmap-list">
-          <li class="done">Natural language → WGSL SDF generation</li>
-          <li class="done">Real-time WebGPU ray marching preview</li>
-          <li class="done">Multi-model benchmark (46 prompts, 9 models)</li>
-          <li class="done">SDF → STL export pipeline</li>
-          <li class="done">Mesh repair for slicer compatibility</li>
-        </ul>
-      </div>
-
-      <div class="roadmap-phase">
-        <h4>Near term</h4>
-        <ul class="roadmap-list">
-          <li class="done">VLM vision feedback — agent sees output and self-corrects</li>
-          <li>Parametric layer — editable parameters from generated WGSL</li>
-          <li>Extended primitive library — gears, threads, snap fits</li>
-          <li>Print-on-demand integration</li>
-          <li>Example gallery</li>
-        </ul>
-      </div>
-
-      <div class="roadmap-phase">
-        <h4>Medium term</h4>
-        <ul class="roadmap-list">
-          <li>Hybrid B-Rep + SDF engine</li>
-          <li>Voxel FEA — basic structural analysis</li>
-          <li>Manufacturing constraint awareness</li>
-        </ul>
-      </div>
-
-      <div class="roadmap-phase">
-        <h4>Long term</h4>
-        <ul class="roadmap-list">
-          <li>Physics-driven design</li>
-          <li>Topology optimisation</li>
-          <li>Full generative design pipeline</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <div class="cta">
-      <p>The full code is available on GitHub. For commercial use or collaboration, please reach out.</p>
-      <div class="cta-buttons">
-        <a href="https://github.com/OliverP255/text-to-geometry" class="btn btn-primary" target="_blank">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-          View on GitHub
-        </a>
-        <a href="mailto:op.oliv17@gmail.com" class="btn btn-secondary">
-          Get in touch
-        </a>
-      </div>
-    </div>
 
     <footer>
       <p>Built with WebGPU, vLLM, and SDF geometry. The SDF implementation draws heavily from <a href="https://iquilezles.org/articles/distfunctions/">Inigo Quilez's work</a>.</p>
