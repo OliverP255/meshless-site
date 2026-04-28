@@ -123,7 +123,8 @@ body {
   margin: 0 0 48px;
 }
 
-.demo-figure img {
+.demo-figure img,
+.demo-figure video {
   width: 100%;
   max-width: 100%;
   display: block;
