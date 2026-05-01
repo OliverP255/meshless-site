@@ -27,10 +27,32 @@
       <figcaption class="demo-caption">Real-time geometry generation from a text prompt</figcaption>
     </figure>
 
+    <section id="intro">
+
+      <h2>Why Meshless</h2>
+      <p>
+        I’m Oliver. I’m working on a tool called Meshless to make the design and manufacturing of physical products accessible to anyone.
+      </p>
+      <br>
+      <p>
+        I founded my first startup at 16 where I used voice AI to automate the role of receptionists in local medical practices. I wrote the product and did the sales myself (which mostly involved walking into local practices and demoing the product) and I saved local practices over $2,000 per month in hiring costs.
+      </p>
+      <br>
+      <p>
+        Since then, I have wanted to use machine learning to make a larger scale impact: So, for the last year and a half, I have been researching (i.e. pursuing many experiments and side projects) how to use machine learning models to represent and generate 3D geometry for CAD.
+      </p>
+      <br>
+      <p>
+        During this research I recognised a significant gap in the market which recent AI development now makes possible to solve:
+      </p>
+    </section>
+
     <!-- The Problem -->
     <section id="problem">
+    <h2>The Problem</h2>
+    <img src="graph.png" alt="Product creation bottleneck graph" class="problem-graph">
      <p>  
-      There is a global engineer shortage. One in three engineering roles in the US alone could go unfilled each year through 2030 
+      There is a global engineer shortage. With the current trajectory, one in three engineering roles in the US alone will be unfilled each year through the 2030s
       (<a href="https://www.bcg.com/publications/2023/addressing-the-engineering-talent-shortage" target="_blank" rel="noopener noreferrer">BCG, 2023</a>).      <br><br>
       But there is no shortage of people with ideas. 
       <br><br>
@@ -44,21 +66,27 @@
     <section id="solution">
       <h2>The Solution</h2>
       <p>
-        Meshless overcomes this bottleneck by letting anyone describe what they want in plain language and generating precise, printable 3D geometry in seconds. No CAD knowledge or previous experience is needed. 
+        The solution is two-fold: make design accessible, then make manufacturing accessible. 
+        <br>
+        <h3>Design</h3>
+        Meshless lets anyone describes what they want in plain language and get back a precise, printable 3D model in a few seconds. No CAD knowledge or previous experience is needed. 
       </p>
+      <br>
       <div class="flow-diagram">
-        <p class="flow-prompt">"A vase with a twisting body and a voronoi texture on the surface"</p>
+        <p class="flow-prompt">User prompts: "A vase with a twisting body and a voronoi texture on the surface"</p>
         <span class="arrow">↓</span>
         <p>AI agent generates 3D geometry in real time</p>
         <span class="arrow">↓</span>
-        <p>Vase is rendered in your browser in seconds</p>
+        <p>Vase is rendered in your browser in a few seconds</p>
         <span class="arrow">↓</span>
-        <p>Download STL file or 3D print directly</p>
+        <p>User downloads STL file or 3D prints directly</p>
       </div>
       <p>
-        The kinds of objects Meshless excels at (organic shapes, surface textures, procedural structures, smooth blending between parts) are either impossible or require hours of expert work in traditional CAD tools. Meshless can generate them in a couple seconds.
+      <br>
+      Meshless is made to be expressive. Users can describe potentially complex physical descriptions, a specific style, intent or even mood and the 3D geometry generated will be an accurate representation of it. Meshless excels at both precise CAD and expressive, organic, smooth, procedural shapes or surface textures which are either impossible or require hours of expert work in traditional CAD tools. Meshless can generate them in a couple seconds.
       <br><br>
       Here's a quick comparison of Meshless with the current tools on the market.
+      <br>
       <br>
       </p>
     
@@ -68,7 +96,7 @@
             <tr>
               <th>Tool</th>              
               <th>AI interface</th>
-              <th>Organic geometry</th>
+              <th>Expressive geometry</th>
               <th>Beginner-friendly</th>
             </tr>
           </thead>
@@ -106,56 +134,22 @@
           </tbody>
         </table>
       </div>
-    </section>
-
-    <!-- Roadmap -->
-    <section id="roadmap">
-      <h2>The Roadmap</h2>
-
-      <div class="roadmap-phase">
-        <h4>Current (v0)</h4>
-        <ul class="roadmap-list">
-          <li class="done">Natural language to WGSL SDF generation</li>
-          <li class="done">Real-time WebGPU ray marching preview</li>
-          <li class="done">Multi-model benchmark (46 prompts, 9 models)</li>
-          <li class="done">SDF to STL export pipeline</li>
-          <li class="done">Mesh repair for slicer compatibility</li>
-        </ul>
-      </div>
-
-      <div class="roadmap-phase">
-        <h4>Near term</h4>
-        <ul class="roadmap-list">
-          <li class="done">VLM vision feedback — agent sees output and self-corrects</li>
-          <li>Parametric layer — editable parameters from generated WGSL</li>
-          <li>Extended primitive library — gears, threads, snap fits</li>
-          <li>Print-on-demand integration</li>
-          <li>Example gallery</li>
-        </ul>
-      </div>
-
-      <div class="roadmap-phase">
-        <h4>Medium term</h4>
-        <ul class="roadmap-list">
-          <li>Hybrid B-Rep + SDF engine</li>
-          <li>Voxel FEA — basic structural analysis</li>
-          <li>Manufacturing constraint awareness</li>
-        </ul>
-      </div>
-
-      <div class="roadmap-phase">
-        <h4>Long term</h4>
-        <ul class="roadmap-list">
-          <li>Physics-driven design</li>
-          <li>Topology optimisation</li>
-          <li>Full generative design pipeline</li>
-        </ul>
-      </div>
+      <br>
+      The existing tools each fail to address the design and manufacturing bottleneck properly. Professional tools like Fusion 360 and SolidWorks require years of training and are built for engineers while beginner tools like Tinkercad are accessible but limited to simple, blocky geometric primitives.
+      <br>
+      <h3>Manufacturing</h3>
+      The second part of the solution is in making the printing process just as easy. As part of the product, Meshless will build a network of 3D printers that allows users to have their designs physically manufactured cheaply and shipped to them in a few days without needing to own the required hardware. 
+      <br><br>
+      The final result is that billions of creative people can now turn their ideas into manufactured products. Just as Shopify allowed anyone to launch an online store, Meshless can allow anyone to launch a physical product. A mechanic can generate a custom bracket. A parent can design a custom toy. A cyclist can make a custom bike mount. A small business can prototype a new product.
+      <br><br>
+      This is the vision of Meshless.
+      <br><br>
+      The demand is already there. The 3D printing market is growing at 17% annually, driven by demand for customised products. These are people who want to make things, but most simply have no way to design them. 
     </section>
 
     <!-- CTA -->
     <div class="cta">
-      <p>The full code is available on GitHub. For commercial use or collaboration, please reach out.</p>
+      <p>The full code is available on GitHub. I am currently pursuing this project part-time while studying and with very little money. For commercial use or collaboration, please reach out.</p>
       <div class="cta-buttons">
         <a href="https://github.com/OliverP255/text-to-geometry" class="btn btn-primary" target="_blank">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
@@ -167,81 +161,6 @@
       </div>
     </div>
 
-    <!-- Technical Deep Dive -->
-    <section id="technology">
-      <h2>What We're Changing and Why (Technical)</h2>
-
-      <h3>The CAD Representation Problem</h3>
-      <p>
-        Every major CAD tool uses <strong>Boundary Representation (B-Rep)</strong>, geometry defined by its surface boundaries: vertices, edges, and faces. B-Rep is precise and manufacturable, but it has fundamental limitations:
-      </p>
-      <ul>
-        <li>Boolean operations frequently fail on complex geometry</li>
-        <li>Organic shapes, smooth blending, and surface textures are extremely difficult to produce</li>
-        <li>Lattice structures, gyroids, and procedural infill are essentially impossible</li>
-        <li>The geometry representation resists automation — it was designed for humans clicking on faces, not for AI agents generating geometry from text</li>
-      </ul>
-
-      <h3>Using Signed Distance Functions</h3>
-      <p>
-        Meshless's geometry engine is built on <strong>Signed Distance Functions (SDFs)</strong>, a mathematical representation where every point in 3D space stores its distance to the nearest surface. Negative values are inside the geometry, positive values are outside, and zero marks the surface itself.
-      </p>
-      <pre><code>fn map(p: vec3f) -> f32 {
-    let sphere = sdSphere(p, 1.0);
-    let box    = sdBox(p - vec3(1.5, 0.0, 0.0), vec3(0.8, 0.6, 0.4));
-    return opSmoothUnion(sphere, box, 0.3);  // smooth blend
-}</code></pre>
-      <p>
-        SDFs make previously difficult operations trivial:
-      </p>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Operation</th>
-              <th>B-Rep</th>
-              <th>SDF</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Smooth blending</td>
-              <td>Hours of expert work</td>
-              <td>opSmoothUnion(a, b, k)</td>
-            </tr>
-            <tr>
-              <td>Surface texture / noise</td>
-              <td>Requires displacement maps</td>
-              <td>sdf(p) + noise(p)</td>
-            </tr>
-            <tr>
-              <td>Infinite repetition</td>
-              <td>Impossible</td>
-              <td>mod(p, cell_size)</td>
-            </tr>
-            <tr>
-              <td>Gyroid / TPMS lattice</td>
-              <td>Essentially impossible</td>
-              <td>One analytical equation</td>
-            </tr>
-            <tr>
-              <td>Boolean operations</td>
-              <td>Frequently fails</td>
-              <td>Always correct</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h3>Why This is Necessary for AI Generation</h3>
-      <p>
-        Language models have been trained on enormous amounts of SDF code, primarily from mathematician/software engineer Inigo Quilez's comprehensive tutorials and the Shadertoy community. They already understand the structure, syntax, and compositional patterns of SDF geometry in a way they do not understand B-Rep construction sequences. By targeting WGSL (the WebGPU shading language) using iq-style conventions, Meshless exploits this prior to generate geometrically accurate 3D shapes directly from natural language.
-      </p>
-      <p>
-        By combining SDFs with traditional CAD representations, Meshless gives users the best of both worlds: the precision of B-Rep for functional parts, and the expressiveness of SDFs for organic and procedural geometry. Users can generate complex shapes — twisting vases, lattice structures, smooth organic forms — without any expertise in either representation. The AI handles the translation from intent to geometry.
-      </p>
-
-    </section>
 
     <footer>
       <p>Built with WebGPU, vLLM, and SDF geometry. The SDF implementation draws heavily from <a href="https://iquilezles.org/articles/distfunctions/">Inigo Quilez's work</a>.</p>

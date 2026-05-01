@@ -163,6 +163,29 @@ section p {
   color: var(--text-muted);
 }
 
+#intro,
+#intro p {
+  color: var(--text-light);
+}
+
+#intro p {
+  font-style: italic;
+}
+
+#intro {
+  background: var(--code-bg);
+  padding: 20px 22px;
+  border-radius: 8px;
+}
+
+.problem-graph {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  margin: 0 0 24px;
+  border-radius: 10px;
+}
+
 /* Flow diagram */
 .flow-diagram {
   text-align: center;
