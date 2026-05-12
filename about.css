@@ -1,0 +1,257 @@
+/* About page — full-bleed hero over portrait */
+
+:root {
+  --about-hero-overlay: linear-gradient(
+    125deg,
+    rgba(8, 10, 14, 0.82) 0%,
+    rgba(12, 14, 22, 0.68) 42%,
+    rgba(8, 10, 16, 0.78) 100%
+  );
+  --about-hero-fallback: #12141a;
+  --about-text: rgba(255, 255, 255, 0.96);
+  --about-text-soft: rgba(255, 255, 255, 0.72);
+  --about-accent: #7eb8ff;
+}
+
+.page-about {
+  background: var(--about-hero-fallback);
+  color: var(--about-text);
+}
+
+.page-about .nav {
+  background: rgba(254, 254, 254, 0.94);
+}
+
+.page-about .nav-links a[aria-current="page"] {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.about-main {
+  position: relative;
+}
+
+.about-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(2.5rem, 8vw, 4.5rem) 1.25rem 1.25rem;
+  isolation: isolate;
+}
+
+.about-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--about-hero-fallback);
+  background-image: var(--about-hero-overlay), url("me.avif");
+  background-position: center 22%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.about-hero__inner {
+  flex: 1;
+  width: 100%;
+  max-width: 34rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.about-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--about-accent);
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: about-fade-up 0.65s ease 0.05s forwards;
+}
+
+.about-name {
+  font-size: clamp(2.5rem, 8vw, 3.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin: 0 0 0.35rem;
+  color: var(--about-text);
+}
+
+.about-name__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.35em 0.5rem;
+}
+
+.about-name__first,
+.about-name__last {
+  display: inline-block;
+  opacity: 0;
+  animation: about-fade-up 0.75s ease forwards;
+}
+
+.about-name__first {
+  animation-delay: 0.12s;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.about-name__last {
+  animation-delay: 0.22s;
+  font-weight: 700;
+}
+
+.about-name__divider {
+  display: none;
+  width: 1px;
+  height: 0.85em;
+  background: rgba(255, 255, 255, 0.28);
+  align-self: center;
+}
+
+@media (min-width: 480px) {
+  .about-name__divider {
+    display: block;
+  }
+}
+
+.about-role {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--about-text-soft);
+  margin: 0 0 1.75rem;
+  opacity: 0;
+  animation: about-fade-up 0.7s ease 0.32s forwards;
+}
+
+.about-bio {
+  text-align: left;
+  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 1.75rem;
+}
+
+.about-bio p {
+  margin: 0 0 1rem;
+  opacity: 0;
+  animation: about-fade-up 0.65s ease forwards;
+}
+
+.about-bio p:nth-child(1) {
+  animation-delay: 0.38s;
+}
+
+.about-bio p:nth-child(2) {
+  animation-delay: 0.46s;
+}
+
+.about-bio p:nth-child(3) {
+  animation-delay: 0.54s;
+}
+
+.about-bio p:last-child {
+  margin-bottom: 0;
+}
+
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.65rem;
+  opacity: 0;
+  animation: about-fade-up 0.65s ease 0.62s forwards;
+}
+
+.about-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.35rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.about-btn--primary {
+  background: rgba(255, 255, 255, 0.95);
+  color: #111;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+}
+
+.about-btn--primary:hover {
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+.about-btn--ghost {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--about-text);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.about-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.about-btn svg {
+  flex-shrink: 0;
+}
+
+.about-foot {
+  flex-shrink: 0;
+  padding: 0.5rem 1.25rem 1rem;
+  text-align: center;
+  margin: 0;
+  color: var(--about-text-soft);
+  opacity: 0;
+  animation: about-fade-up 0.6s ease 0.75s forwards;
+}
+
+.about-foot a {
+  font-size: 0.8rem;
+  color: var(--about-text-soft);
+  text-decoration: none;
+}
+
+.about-foot a:hover {
+  color: var(--about-text);
+  text-decoration: underline;
+}
+
+@keyframes about-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-eyebrow,
+  .about-name__first,
+  .about-name__last,
+  .about-role,
+  .about-bio p,
+  .about-actions,
+  .about-foot {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
